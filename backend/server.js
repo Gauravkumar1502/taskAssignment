@@ -125,6 +125,37 @@ app.get('/task/:taskNumber', (req, res) => {
     });
 });
 
+app.post('/saveTaskWithEST', (req, res) => {
+    const {taskNumber, updteEstTime, estNote, actHours, finalNote} = req.body;
+    const query = `Update Task 
+    set actual_hours = ?, 
+    notes = ?, completed = ? 
+    where task_number = ?;`;
+    const query1 = `Insert into TaskEstimate values (?, ?, ?);`;
+    connection.query(query, [actHours, finalNote, "1", taskNumber], (err, resultTask) => {
+        if (err)
+            return res.status(500).send(err.message);
+        connection.query(query1, [taskNumber, updteEstTime, estNote], (errTaskEstimate, resultTaskEstimate) => {
+            if (errTaskEstimate)
+                return res.status(500).send(errTaskEstimate.message);
+            res.status(200).send('Task updated successfully!');
+        });
+    });
+});
+
+app.post('/saveTask', (req, res) => {
+    const {taskNumber, actHours, finalNote} = req.body;
+    const query = `Update Task
+    set actual_hours = ?,
+    notes = ?, completed = ?
+    where task_number = ?;`;
+    connection.query(query, [actHours, finalNote, "1", taskNumber], (err, result) => {
+        if (err)
+            return res.status(500).send(err.message);
+        res.status(200).send('Task updated successfully!');
+    });
+});
+
 
 
 app.listen(PORT, () => {

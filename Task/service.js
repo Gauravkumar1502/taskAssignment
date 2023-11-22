@@ -395,14 +395,128 @@ function permanentlySaveTask(event){
     if(ele === null || ele.style.display === "none"){
         console.log("Mark task as completed");
         showDialog();
-        console.log(taskNumber);
+
     }else{
         console.log("Ask for Actual Time and Note");
-        console.log(taskNumber, updteEstTime, updateEstNoteEditor.getData());
+        showDialog1();
     }
 }
-function showDialog(){
-    console.log("show dialog");
+let  finalUpdateEditor;
+let updateActualHours;
+
+async function showDialog1(){
+    console.log("Show Dialog1");
+    document.getElementById("updateModal").showModal();
+        try{
+            if(finalUpdateEditor === undefined)
+                finalUpdateEditor = await ClassicEditor.create(document.getElementById("updateEditor1"));
+        }catch(err){
+            alert(err.message);
+        }
+        document.getElementById("updateActualHours").addEventListener("keyup", (e) => {
+            if(e.target.value === "")
+                document.getElementById("updateActualHoursError").innerHTML = "";
+            else if(!timerRegex.test(e.target.value))
+                document.getElementById("updateActualHoursError").innerHTML = "Actual Hours should be a number with decimal i.e 1.20, 1.59. Decimal part cannot be more than .59";
+            else
+                document.getElementById("updateActualHoursError").innerHTML = "";
+            updateActualHours = e.target.value;
+        });
+        document.getElementById("saveUpdate").addEventListener("click", () => {
+            if(updateActualHours === undefined || updateActualHours === ""){
+                alert("Please enter Actual Hours");
+                return;
+            }
+            if(finalUpdateEditor.getData() === ""){
+                alert("Please enter Final Note");
+                return;
+            }
+            // confirm if user wants to save task permanently
+            if(!confirm("Do you want to save task permanently?"))
+                return;
+            // mark task as completed and save it permanently
+            console.log(taskNumber, 
+                updteEstTime, 
+                updateEstNoteEditor.getData(),
+                updateActualHours,
+                finalUpdateEditor.getData());
+
+                // save task 
+                axios.post("http://localhost:8080/saveTaskWithEST", 
+                JSON.stringify({taskNumber, updteEstTime, estNote: updateEstNoteEditor.getData(),
+                    actHours: updateActualHours, finalNote: finalUpdateEditor.getData()
+                }),
+                {
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    alert(response.data);
+                    // clear update section
+                    document.getElementById("search").value = "";
+                    document.querySelector("#update>div:last-child").innerHTML = "";
+                    document.getElementById("addTab").click();
+                }).catch(error => {
+                    alert(error.response.data);
+                });
+        
+
+        });
+}
+
+async function showDialog(){
+        document.getElementById("updateModal").showModal()
+        console.log("finalUpdateEditor", finalUpdateEditor);
+        try{
+            if(finalUpdateEditor === undefined)
+                finalUpdateEditor = await ClassicEditor.create(document.getElementById("updateEditor1"));
+        }catch(err){
+            alert(err.message);
+        }
+        document.getElementById("updateActualHours").addEventListener("keyup", (e) => {
+            if(e.target.value === "")
+                document.getElementById("updateActualHoursError").innerHTML = "";
+            else if(!timerRegex.test(e.target.value))
+                document.getElementById("updateActualHoursError").innerHTML = "Actual Hours should be a number with decimal i.e 1.20, 1.59. Decimal part cannot be more than .59";
+            else
+                document.getElementById("updateActualHoursError").innerHTML = "";
+            updateActualHours = e.target.value;
+        });
+        document.getElementById("saveUpdate").addEventListener("click", () => {
+            if(updateActualHours === undefined || updateActualHours === ""){
+                alert("Please enter Actual Hours");
+                return;
+            }
+            if(finalUpdateEditor.getData() === ""){
+                alert("Please enter Final Note");
+                return;
+            }
+            // confirm if user wants to save task permanently
+            if(!confirm("Do you want to save task permanently?"))
+                return;
+            // mark task as completed and save it permanently
+            console.log(taskNumber,
+                 updateActualHours, 
+                 finalUpdateEditor.getData());
+
+                // save task
+                axios.post("http://localhost:8080/saveTask", 
+                JSON.stringify({taskNumber, actHours: updateActualHours, finalNote: finalUpdateEditor.getData()}),
+                {
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    alert(response.data);
+                    // clear update section
+                    document.getElementById("search").value = "";
+                    document.querySelector("#update>div:last-child").innerHTML = "";
+                    document.getElementById("addTab").click();
+                }).catch(error => {
+                    alert(error.response.data);
+                });
+
+        });
 }
 
 function removeEstimateTimeAndNote(e){
@@ -441,3 +555,8 @@ function addTimesAndNotesDOMHelper(time, index, type, setDisabled){
             </div>
         </div>`;
 }
+
+document.getElementById("updateClose").addEventListener("click", () => {
+    document.getElementById("updateModal").close();
+    document.getElementById("saveUpdate").removeEventListener("click", () => {});
+});

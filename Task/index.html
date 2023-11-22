@@ -66,6 +66,26 @@
         </div>
 
         <div id="update" class="tabcontent active">
+            <dialog class="modal" id="updateModal">
+                <div class="modal-header">
+                    <label class="title">Example</label>
+                    <button class="close" id="updateClose">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-group">
+                        <label>Actual Hours:</label>
+                        <input type="text" id="updateActualHours" placeholder="Actual Hours">
+                        <span id="updateActualHoursError" class="error"></span>
+                    </div>
+                    <div class="card-group rte">
+                        <label>Final Notes:</label>
+                        <div class="notes final-notes">
+                            <div id="updateEditor1"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="saveUpdate" class="save">Save</button>
+            </dialog>
             <div class="card-group">
                 <div>
                     <label for="search">Search Task:</label>
