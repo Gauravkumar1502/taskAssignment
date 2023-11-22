@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>  
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="tab">
+                <button class="tablinks" id="addTab" onclick="show(event, 'add')">Add</button>
+                <button class="tablinks" id="updateTab" onclick="show(event, 'update')">Update</button>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="add" class="tabcontent">
+            <div class="card-group">
+                <div>
+                    <label for="taskNumber">Task Number:</label>
+                    <input type="text" maxlength="6" id="taskNumber" placeholder="Task Number">
+                </div>
+                <span id="taskNumberError" class="error"></span>
+            </div>
+            <div class="card-group">
+                <div>
+                    <label for="timeEstimate">Estimate Time:</label>
+                    <input type="text" id="timeEstimate" placeholder="Estimate Time">
+                </div>
+                <span id="timeEstimateError" class="error"></span>
+            </div>
+            <div class="card-group rte">
+                <label>Estimate Note:</label>
+                <div class="notes est-notes">
+                    <div id="editor"></div>
+                </div>
+            </div>
+            <dialog class="modal" id="modal">
+                <div class="modal-header">
+                    <label class="title">Example</label>
+                    <button class="close" id="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-group">
+                        <label>Actual Hours:</label>
+                        <input type="text" id="actualHours" placeholder="Actual Hours">
+                        <span id="actualHoursError" class="error"></span>
+                    </div>
+                    <div class="card-group rte">
+                        <label>Final Notes:</label>
+                        <div class="notes final-notes">
+                            <div id="editor1"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="final-save" class="save">Save</button>
+            </dialog>
+            <div>
+                <button id="save-task">Draft Task</button>
+                <button id="complete-task">Complete Task</button>
+            </div>
+        </div>
+
+        <div id="update" class="tabcontent active">
+            <div class="card-group">
+                <div>
+                    <label for="search">Search Task:</label>
+                    <input type="search" id="search" maxlength="6" placeholder="Enter Task Number">
+                </div>
+                <span id="searchError" class="error"></span>
+            </div>
+            
+            <div class="card-group">
+            </div>
+        </div>
+
+    </main>
+</body>
+<script src="service.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</html>

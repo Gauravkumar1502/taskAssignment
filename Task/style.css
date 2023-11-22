@@ -1,0 +1,149 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+body {
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #eee;
+}
+ul{
+  margin: 0;
+}
+label{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+img{
+  width: 50px;
+  height: 50px;
+}
+.card-group{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+input[type="text"],input[type="search"]{
+  padding: .5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+/* Style the buttons inside the tab */
+.tab button {
+    border: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+.rte{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+/* style the active tab content */
+.active {
+  display: block;
+}
+.error{
+  color: red;
+  max-width: 80%;
+  text-wrap: nowrap;
+}
+.icon{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.ck-editor__editable[role="textbox"] {
+  /* editing area */
+  /* min-height: 100px; */
+  width: 100%;
+}
+.notes{
+  width: 100%;
+}
+.notes .ck-editor[role="application"] {
+  margin-bottom: 1rem;
+}
+
+dialog{
+  border-radius: 1rem;
+  border: 2px solid black;
+  width: 90%;
+}
+dialog::backdrop{
+  background-color: rgba(0,0,0,.5);
+}
+.modal-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+.modal-header .title{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.modal-header .close{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.modal-body{
+  padding: 10px 20px;
+}
+
+/* Update section */
+#update>div:first-child{
+  padding: 1rem 0;
+  border-bottom: 1px solid #ccc;
+}
+
+[contenteditable="false"],[disabled]{
+  cursor: not-allowed;
+}
+#add_new_est{
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  column-gap: 1rem;
+}
+
+img:hover{
+  box-shadow: 0 0 25px 1px black;
+  border-radius: 50%;
+  cursor: pointer;
+}
